@@ -16,3 +16,30 @@
 
 
 
+#include <iostream>
+
+int find_dist(int r1, int r2, int m) {
+    int first_var = abs(r1 - r2);
+    int second_var;
+    if (r1 >= r2) {
+        second_var = (m + r2) - r1;
+    } else {
+        second_var = (m + r1) - r2;
+    }
+    return std::min(first_var, second_var);
+}
+
+int main() {
+    int m, n;
+    std::cin >> m;
+    std::cin >> n;
+
+    int r1, c1, r2, c2;
+    while (std::cin >> r1) {
+        std::cin >> c1;
+        std::cin >> r2;
+        std::cin >> c2;
+        std::cout << find_dist(r1, r2, m) + find_dist(c1, c2, n) << std::endl;
+    }
+
+}
