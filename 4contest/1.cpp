@@ -4,3 +4,19 @@
 Если в контейнере недостаточно элементов, берутся только существующие.
 Если контейнер пуст, результатом будет значение по умолчанию типа элементов.
 
+
+template <typename T>
+auto process(const T& container) {
+    int i = 0;
+    typename T::value_type sum{};
+    for (auto it = container.rbegin(); it != container.rend(); ++it) {
+        ++i;
+        if (i == 1 or i == 3) {
+            sum += *it;
+        } else if (i == 5) {
+            sum += *it;
+            break;
+        }
+    }
+    return sum;
+}
