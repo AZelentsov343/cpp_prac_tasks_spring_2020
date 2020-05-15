@@ -23,4 +23,51 @@
 Это можно использовать для накопления результата вычисления в классе-функторе.
 
 
+#include <iostream>
+#include <algorithm>
+#include <vector>
 
+class Count_avg {
+public:
+    explicit Count_avg(double sum = 0, size_t size = 0) : sum(0), cur_num(0), size(size) {}
+
+    void operator()(double a) {
+        cur_num++;
+        sum += a;
+        if (cur_num == size) {
+            std::cout << (sum / size) << std::endl;
+        }
+    }
+
+private:
+    double sum;
+    size_t cur_num;
+    size_t size;
+};
+
+
+void normalize(std::vector<double> &v) {
+    size_t ten_percent = v.size() / 10;
+    v.erase(v.begin(), v.begin() + ten_percent);
+    v.erase(v.end() - ten_percent, v.end());
+}
+
+
+
+int main() {
+    std::vector <double> sampling;
+    double sample;
+    while (std::cin >> sample) {
+        sampling.emplace_back(sample);
+    }
+
+    normalize(sampling);
+
+    std::sort(sampling.begin(), sampling.end());
+
+    normalize(sampling);
+
+    Count_avg functor(0, sampling.size());
+
+    for_each(sampling.begin(), sampling.end(), functor);
+}
