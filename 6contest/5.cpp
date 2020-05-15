@@ -43,6 +43,44 @@ int main()
 
 #####конец условия
 
+#include <algorithm>
+#include <complex>
+#include <array>
+#include <vector>
+
+namespace Equations {
+
+template <typename T>
+std::pair<bool, std::vector<std::complex<T>>> quadratic(std::array<std::complex<T>, 3>& arr) {
+    std::vector<std::complex<T>> v;
+    auto a = arr[2];
+    auto b = arr[1];
+    auto c = arr[0];
+    constexpr typename std::complex<T> zero(0, 0);
+    constexpr typename std::complex<T> two(2, 0);
+    constexpr typename std::complex<T> four(4, 0);
+
+    if (a == zero) { //linear
+        if (b == zero) {
+            if (c == zero) { // 0 = 0
+                return {false, v};
+            } else { // no roots
+                return {true, v};
+            }
+        } else { // b*x + c = 0 -> x = -c/b
+            v.emplace_back(-c/b);
+            return {true, v};
+        }
+    } else { //non-linear
+        auto D = std::sqrt(b * b -  four * a * c);
+        v.emplace_back((-b + D)/(two*a));
+        v.emplace_back((-b - D)/(two*a));
+        return {true, v};
+    }
+}
+
+} //namespace Equations
+
 
 
 
