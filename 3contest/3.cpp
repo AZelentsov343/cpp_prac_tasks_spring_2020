@@ -12,5 +12,36 @@
 
 При необходимости допускается создавать локальную копию вектора v1.
 Из стандартных алгоритмов допускается использовать std::sort, std::unique, std::swap.
+  
+#include <vector>
+#include <algorithm>
+
+void process(const std::vector<int> index, std::vector<int> &v) {
+    std::vector<int> copied_index = index;
+
+    std::sort(copied_index.begin(), copied_index.end());
+    auto last = std::unique(copied_index.begin(), copied_index.end());
+
+    int count = 0;
+    auto x = copied_index.begin();
+    for (; x < last && (*x) < 0; x++);
+    if (x == last) {
+        return;
+    }
+
+    for (auto it = v.begin(); it < v.end(); it++) {
+        if (it - v.begin() == (*x)) {
+            count++;
+            if (x + 1 < last) {
+                x++;
+            }
+        } else {
+            if (count > 0) {
+                std::swap(*it, *(it - count));
+            }
+        }
+    }
+    v.resize(v.size() - count);
+}
 
 
